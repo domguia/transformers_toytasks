@@ -104,6 +104,8 @@ parser.add_argument("--rpl_no_prog", action="store_true", default=False)
 
 parser.add_argument("--grid_size", type=int, default=6)
 
+parser.add_argument("--grid_fraction_play", type=float, default=0)
+
 ##############################
 # picoclvr options
 
@@ -554,6 +556,7 @@ elif args.task == "grid":
         nb_test_samples=args.nb_test_samples,
         batch_size=args.batch_size,
         size=args.grid_size,
+        fraction_play=args.grid_fraction_play,
         logger=log_string,
         device=device,
     )
