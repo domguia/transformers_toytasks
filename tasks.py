@@ -136,11 +136,8 @@ class TaskFromFile(Task):
                 pairs.append((sequence, pred_mask))
 
         symbols = ["#"] + list(set("".join([x[0] for x in pairs])) - set(["#"]))
-        print("SANITY", symbols)
         self.char2id = dict([(c, n) for n, c in enumerate(symbols)])
         self.id2char = dict([(n, c) for c, n in self.char2id.items()])
-
-        print(self.char2id)
 
         self.train_input, self.train_pred_masks = self.tensorize(
             pairs[:nb_train_samples]
@@ -163,7 +160,6 @@ class TaskFromFile(Task):
         return len(self.char2id)
 
     def tensor2str(self, t):
-        print(f"{type(t)=}")
         return ["".join([self.id2char[x.item()] for x in s]) for s in t]
 
     def produce_results(
