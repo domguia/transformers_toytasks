@@ -132,7 +132,7 @@ class TaskFromFile(Task):
                 sequence = f.readline().strip()
                 pred_mask = f.readline().strip()
                 assert len(sequence) == len(pred_mask)
-                assert set(pred_mask) == {"0", "1", "2"}, f"{set(pred_mask)}"
+                assert set(pred_mask).issubset({"0", "1", "2"}), f"{set(pred_mask)}"
                 pairs.append((sequence, pred_mask))
 
         symbols = ["#"] + list(set("".join([x[0] for x in pairs])) - set(["#"]))
