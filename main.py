@@ -33,7 +33,7 @@ parser.add_argument(
     "--task",
     type=str,
     default="twotargets",
-    help="byheart, learnop, guessop, mixing, memory, twotargets, addition, picoclvr, mnist, maze, snake, stack, expr, rpl, grid, qmlp",
+    help="file, byheart, learnop, guessop, mixing, memory, twotargets, addition, picoclvr, mnist, maze, snake, stack, expr, rpl, grid, qmlp",
 )
 
 parser.add_argument("--log_filename", type=str, default="train.log", help=" ")
@@ -85,6 +85,11 @@ parser.add_argument("--no_checkpoint", action="store_true", default=False)
 parser.add_argument("--overwrite_results", action="store_true", default=False)
 
 parser.add_argument("--checkpoint_name", type=str, default="checkpoint.pth")
+
+##############################
+# filetask
+
+parser.add_argument("--filetask_file", type=str, default=None)
 
 ##############################
 # rpl options
@@ -180,6 +185,12 @@ if args.result_dir is None:
 ######################################################################
 
 default_task_args = {
+    "file": {
+        "model": "37M",
+        "batch_size": 25,
+        "nb_train_samples": 250000,
+        "nb_test_samples": 10000,
+    },
     "addition": {
         "model": "352M",
         "batch_size": 25,
@@ -390,7 +401,20 @@ picoclvr_pruner_eval = (
 
 ######################################################################
 
-if args.task == "byheart":
+if args.task == "file":
+    assert (
+        args.filetask_file is not None
+    ), "You have to specify the task file with --filetask_file <filename>"
+    task = tasks.TaskFromFile(
+        args.filetask_file,
+        nb_train_samples=args.nb_train_samples,
+        nb_test_samples=args.nb_test_samples,
+        batch_size=args.batch_size,
+        device=device,
+    )
+    args.max_percents_of_test_in_train = 0
+
+elif args.task == "byheart":
     task = tasks.SandBox(
         problem=problems.ProblemByHeart(),
         nb_train_samples=args.nb_train_samples,
