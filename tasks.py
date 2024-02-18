@@ -144,6 +144,9 @@ class TaskFromFile(Task):
         )
         self.test_input, self.test_pred_masks = self.tensorize(pairs[nb_train_samples:])
 
+        assert self.train_input.size(0) == nb_train_samples
+        assert self.test_input.size(0) == nb_test_samples
+
     def batches(self, split="train", nb_to_use=-1, desc=None):
         assert split in {"train", "test"}
         input = self.train_input if split == "train" else self.test_input
