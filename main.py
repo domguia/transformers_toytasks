@@ -413,6 +413,7 @@ if args.task == "file":
         nb_train_samples=args.nb_train_samples,
         nb_test_samples=args.nb_test_samples,
         batch_size=args.batch_size,
+        shuffle=True,
         device=device,
     )
     args.max_percents_of_test_in_train = 0
